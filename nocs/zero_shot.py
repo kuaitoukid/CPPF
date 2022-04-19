@@ -1,3 +1,4 @@
+# coding: utf-8
 import cv2
 import numpy as np
 import sys
@@ -303,6 +304,9 @@ for i, (T_est, cnt, diff) in enumerate(scene_locs):
         transformed_bbox_3d = transform_coordinates_3d(bbox_3d, RT)
         projected_bbox = calculate_2d_projections(transformed_bbox_3d, intrinsics)
         draw_image_bbox = draw(draw_image_bbox, projected_bbox, projected_axes, (1., 0, 0))
+
+draw_image_bbox[draw_image_bbox == 255] = 1
+cv2.imwrite('draw_image_bbox.png', (draw_image_bbox * 255)[:, :, [2, 1, 0]].astype(np.uint8))
 
 # visualize instsance segmentation
 # fig = go.Figure(data=[go.Scatter3d(

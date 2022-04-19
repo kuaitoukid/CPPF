@@ -1,5 +1,9 @@
+import os
 import cupy as cp
 import numpy as np
+
+cur_path = os.path.dirname(os.path.abspath(os.getcwd()))
+
     
 ppf_kernel = cp.RawKernel(r'''
     #include "helper_math.cuh"
@@ -62,7 +66,7 @@ ppf_kernel = cp.RawKernel(r'''
             }
         }
     }
-''', 'ppf_voting', options=('-I models/include',))
+''', 'ppf_voting', options=(f'-I {cur_path}/include',))
 
 
 backvote_kernel = cp.RawKernel(r'''
@@ -106,7 +110,7 @@ backvote_kernel = cp.RawKernel(r'''
             }
         }
     }
-''', 'backvote', options=('-I models/include',))
+''', 'backvote', options=(f'-I {cur_path}/include',))
 
 rot_voting_kernel = cp.RawKernel(r'''
     #include "helper_math.cuh"
@@ -142,7 +146,7 @@ rot_voting_kernel = cp.RawKernel(r'''
             }
         }
     }
-''', 'rot_voting', options=('-I models/include',))
+''', 'rot_voting', options=(f'-I {cur_path}/include',))
 
 findpeak_kernel = cp.RawKernel(r'''
     #include "models/src/helper_math.cuh"
@@ -166,4 +170,4 @@ findpeak_kernel = cp.RawKernel(r'''
             outputs[idx] = diff_x + diff_y + diff_z;
         }
     }
-''', 'findpeak', options=('-I models/include',))
+''', 'findpeak', options=(f'-I {cur_path}/include',))
